@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
@@ -5,7 +7,25 @@ import cv2
 import math
 import os
 import time
+import glob
 from moviepy.editor import VideoFileClip
+import glob
+
+#TO EXTRACT FRAMES FROM THE VIDEO INPUT
+vidcap = cv2.VideoCapture('bucks.mp4')
+success,image = vidcap.read()
+count = 0
+success = True
+while success:
+    success,image = vidcap.read()
+    #print('Read a new frame: ', success)
+    if(count%110==0):
+        cv2.imwrite("test_images1/frame%d.jpg" % count, image)     # save frame as JPEG file
+    count += 1
+
+dirlist = glob.glob('test_images1/*.jpg')
+for i in dirlist:
+    print(i)
 
 def grayscale(img):
     """Applies the Grayscale transform
@@ -72,18 +92,6 @@ def draw_lines(img, lines, color=[255, 0, 0], thickness=2):
     If you want to make the lines semi-transparent, think about combining
     this function with the weighted_img() function below
     """
-
-
-
-
-
-    #for line in lines:
-    #    x1=line[0]
-    #    y1=line[1]
-    #    x2=line[2]
-    #    y2=line[3]
-    #    cv2.line(img, (x1, y1), (x2, y2), color, thickness)
-
 
 def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
     """
@@ -179,8 +187,8 @@ def process_frame(image):
     lower_right = [imshape[1],imshape[0]]
     top_left = [0,imshape[0]*0.55]
     top_right=[imshape[1],imshape[0]*0.55]
-    top_left_i = [imshape[1]*0.3,imshape[0]*0.6]
-    top_right_i = [imshape[1]*0.7,imshape[0]*0.6]
+    top_left_i = [imshape[1]*0.414,imshape[0]*0.563]
+    top_right_i = [imshape[1]*0.585,imshape[0]*0.563]
     vertices = [np.array([lower_left,top_left,top_right,lower_right,top_right_i,top_left_i],dtype=np.int32)]
     #print(vertices)
     #print(imshape)
@@ -205,9 +213,10 @@ def process_frame(image):
     return result
 
 #for source_img in os.listdir("test_images/"):
-
-for source_img in ['frame0.jpg','frame200.jpg','frame400.jpg','frame600.jpg','frame800.jpg','frame1000.jpg','frame1200.jpg','frame1400.jpg']:
-    image = mpimg.imread("test_images/"+source_img)
+dirlist = glob.glob('test_images/*.jpg')
+for source_img in dirlist:
+    image = mpimg.imread(source_img)
     processed = process_frame(image)
-    mpimg.imsave("out_images/"+source_img,processed)
-    #time.sleep(8)
+    s=source_img[12:]
+    mpimg.imsave("out_images/1.jpg",processed)
+    time.sleep(6)

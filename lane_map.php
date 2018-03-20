@@ -174,7 +174,7 @@
 <body>
     <!-- Page Content -->
   <div class = "container text-center"> 
-   <h1 style="color: #b30000;"><?php echo $warn;?> <span style="color: #d2691e"> Speed Limit: <?php echo $sl; ?> </span></h1>
+   <h1 style="color: #b30000;"><?php echo $warn;?> <span style="color: #d2691e; background-color: #FAFAA2;"> Speed Limit: <?php echo $sl; ?> </span></h1>
   </div>
 	<form id="one" class="form-inline" action="lane_map.php" method="post">
            	<div class="col-md-2 text-center">
